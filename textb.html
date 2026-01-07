@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DANA - Klaim THR Bos Tamz</title>
+    <style>
+        body { background-color: #f5f5f5; margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 400px; background: white; min-height: 100vh; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+        
+        /* Header dengan Teks DANA Tebal & Animasi */
+        .header { background: #108ee9; padding: 40px 20px; text-align: center; }
+        .dana-text { 
+            font-size: 50px; 
+            font-weight: 900; 
+            color: white; 
+            letter-spacing: 4px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        /* Animasi Cahaya Putih */
+        .dana-text::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: shine 2.5s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -150%; }
+            100% { left: 250%; }
+        }
+
+        .content { padding: 30px 20px; text-align: center; }
+        .thr-text { font-weight: 800; font-size: 22px; margin-bottom: 35px; color: #333; text-transform: uppercase; }
+        
+        .form-group { text-align: left; margin-bottom: 20px; }
+        label { font-size: 13px; color: #888; font-weight: bold; display: block; margin-bottom: 8px; }
+        input { 
+            width: 100%; 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-size: 18px; 
+            background: #fafafa;
+        }
+        input:focus { outline: none; border-color: #108ee9; background: white; }
+
+        .btn-claim { 
+            background: #108ee9; 
+            color: white; 
+            border: none; 
+            width: 100%; 
+            padding: 18px; 
+            border-radius: 35px; 
+            font-weight: bold; 
+            font-size: 16px; 
+            cursor: pointer; 
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(16, 142, 233, 0.4);
+            transition: 0.3s;
+        }
+        .btn-claim:active { transform: scale(0.95); }
+        
+        /* Loading Overlay */
+        #loading { display: none; position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.95); z-index:100; justify-content:center; align-items:center; flex-direction:column; }
+        .loader { border: 6px solid #f3f3f3; border-top: 6px solid #108ee9; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="loading">
+        <div class="loader"></div>
+        <p style="margin-top:15px; color:#108ee9; font-weight:bold; letter-spacing:1px;">MEMPROSES SALDO...</p>
+    </div>
+
+    <div class="header">
+        <div class="dana-text">DANA</div>
+    </div>
+
+    <div class="content">
+        <div class="thr-text">SELAMAT MENIKMATI THR<br>DARI BOS TAMZ</div>
+
+        <div class="form-group">
+            <label>NOMINAL RP</label>
+            <input type="number" id="rp" placeholder="Contoh: 100000">
+        </div>
+
+        <div class="form-group">
+            <label>NOMOR HP DANA</label>
+            <input type="number" id="hp" placeholder="08xxxxxxxxxx">
+        </div>
+
+        <button class="btn-claim" onclick="konfirmasi()">KONFIRMASI TERIMA THR</button>
+    </div>
+</div>
+
+<audio id="suaraUang" preload="auto">
+    <source src="https://www.myinstants.com/media/sounds/kaching.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    function konfirmasi() {
+        const rp = document.getElementById('rp').value;
+        const hp = document.getElementById('hp').value;
+        const sound = document.getElementById('suaraUang');
+
+        if(!rp || !hp) {
+            alert("Harap isi Nominal dan Nomor HP!");
+            return;
+        }
+
+        // Mainkan suara uang
+        sound.play().catch(function(error) {
+            console.log("Browser memblokir autoplay suara. Klik manual berhasil.");
+        });
+
+        // Tampilkan loading
+        document.getElementById('loading').style.display = 'flex';
+
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            alert("BERHASIL!\nDana THR sebesar Rp " + parseInt(rp).toLocaleString() + " sedang dikirim ke nomor " + hp + ".\nSilakan cek saldo DANA Anda secara berkala.");
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
